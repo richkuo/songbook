@@ -13,7 +13,7 @@ export default function SearchScreen() {
   const [artist, setArtist] = useState('');
   const [songList, setSongList] = useState([]);
 
-  const submitArtist = async (searchTerm) => {
+  const submitSearch = async (searchTerm) => {
     try {
       const response = await fetch('https://api.genius.com/search?q=' + searchTerm, {
         method: 'GET',
@@ -55,7 +55,7 @@ export default function SearchScreen() {
       />
 
       <Button
-        onPress={() => submitArtist(artist)}
+        onPress={() => submitSearch(artist)}
         title="Search"
         color="#841584"
         accessibilityLabel="Artist Search Button"
