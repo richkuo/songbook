@@ -22,7 +22,7 @@ export default function SearchScreen({ navigation }) {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + searchTerm, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + Config.API_TOKEN,
+          Authorization: 'Bearer ' + Config.GENIUS_CLIENT_ACCESS_TOKEN,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
