@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import ArtistCard from '../components/ArtistCard'
+import Config from "react-native-config";
 
 export default function SearchScreen({ navigation }) {
   const [artistList, setArtistList] = useState([]);
@@ -21,7 +22,7 @@ export default function SearchScreen({ navigation }) {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + searchTerm, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer e18K699_KGYDWob1J9n2N4eZhnRPFcCLgZ6wC3Xm3xlpKGK7_mbaNXB2WEeTSjx-',
+          Authorization: 'Bearer ' + Config.API_TOKEN,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },

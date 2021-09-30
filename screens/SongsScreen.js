@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import SongCard from '../components/SongCard'
+import Config from "react-native-config";
 
 export default function SongsScreen({ route, navigation }) {
   const { artist } = route.params;
@@ -21,7 +22,7 @@ export default function SongsScreen({ route, navigation }) {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + artist.name, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer e18K699_KGYDWob1J9n2N4eZhnRPFcCLgZ6wC3Xm3xlpKGK7_mbaNXB2WEeTSjx-',
+          Authorization: 'Bearer ' + Config.API_TOKEN,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
