@@ -15,8 +15,10 @@ GENIUS_CLIENT_ACCESS_TOKEN=generated-client-access-token
 ```
 7. Start the expo server with:
 ```
-yarn start
+expo start
 ```
+> If you run into issues with your `@env`
+> run `npm cache clean --force` before `expo start`
 
 8. You can scan the QR code provided with Expo Go (Android) or the Camera app (iOS)  
 Or you can use any of the following commands to launch an emulator or website  

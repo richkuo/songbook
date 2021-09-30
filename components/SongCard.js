@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 const SongCard = (props) => {
-  return <View style={styles.card}>
+  return <View key={props.id} style={styles.card}>
     <View style={styles.imageContainer}>
       <Image
         style={styles.songImage}

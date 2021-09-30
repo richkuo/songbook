@@ -10,8 +10,8 @@ import {
   View,
 } from 'react-native';
 
-import ArtistCard from '../components/ArtistCard'
-import Config from "react-native-config";
+import ArtistCard from '../components/ArtistCard';
+import {GENIUS_CLIENT_ACCESS_TOKEN} from '@env'
 
 export default function SearchScreen({ navigation }) {
   const [artistList, setArtistList] = useState([]);
@@ -26,7 +26,7 @@ export default function SearchScreen({ navigation }) {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + searchTerm, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + 'uEl74vepbfLSQ4dkcnOc0CnP0XWAruPR5BvnzWoOIzRGLeP7VskgX0nkNCKI0McX',
+          Authorization: 'Bearer ' + GENIUS_CLIENT_ACCESS_TOKEN,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -85,6 +85,7 @@ export default function SearchScreen({ navigation }) {
 
       <FlatList
         ListHeaderComponent=<Text style={styles.title}>{responseMessage}</Text>
+        keyboardShouldPersistTaps={'handled'}
         refreshing={loading}
         data={artistList}
         renderItem={artist => renderArtist(artist)}
