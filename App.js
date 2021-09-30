@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import SearchScreen from './screens/SearchScreen';
+import SongsScreen from './screens/SongsScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,6 +14,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Search for Artist" component={SearchScreen} />
+          <Stack.Screen name="Songs" component={SongsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
