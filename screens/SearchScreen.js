@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import {
-  Button,
   FlatList,
   TouchableOpacity,
   StyleSheet,
@@ -15,7 +14,6 @@ import {GENIUS_CLIENT_ACCESS_TOKEN} from '@env'
 
 export default function SearchScreen({ navigation }) {
   const [artistList, setArtistList] = useState([]);
-  const [songList, setSongList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
 
@@ -36,7 +34,7 @@ export default function SearchScreen({ navigation }) {
 
       if(json.error) {
         setResponseMessage(json.error_description);
-        setSongList([]);
+        setArtistList([]);
         setLoading(false);
         return
       }
@@ -88,6 +86,7 @@ export default function SearchScreen({ navigation }) {
         keyboardShouldPersistTaps={'handled'}
         refreshing={loading}
         data={artistList}
+        extraData={responseMessage}
         renderItem={artist => renderArtist(artist)}
         keyExtractor={artist => artist.id}
       />

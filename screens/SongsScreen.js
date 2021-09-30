@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
-  Button,
   FlatList,
-  TouchableOpacity,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 
@@ -33,6 +30,13 @@ export default function SongsScreen({ route, navigation }) {
       });
 
       const json = await response.json();
+
+      if(json.error) {
+        setResponseMessage(json.error_description);
+        setSongList([]);
+        setLoading(false);
+        return
+      }
 
       const hits = json.response.hits;
 
@@ -69,6 +73,7 @@ export default function SongsScreen({ route, navigation }) {
       <FlatList
         ListHeaderComponent=<Text style={styles.title}>{responseMessage}</Text>
         data={songList}
+        extraData={responseMessage}
         renderItem={song => renderSong(song)}
         keyExtractor={song => song.id}
       />
@@ -87,12 +92,5 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  textInput: {
-    fontSize: 35,
-    borderRadius: 5,
-    width: '100%',
-    borderWidth: 3,
-    padding: 15,
   },
 });
