@@ -1,12 +1,11 @@
 ## 📚 Documentation
 
-This project uses [Expo](https://docs.expo.dev/get-started/installation/),
- [react-navigation](https://reactnavigation.org/docs/getting-started/) for navigation,
- and [react-native-config](https://github.com/luggit/react-native-config) for environment variables
+This project uses [Expo](https://docs.expo.dev/get-started/installation/) and
+ [react-navigation](https://reactnavigation.org/docs/getting-started/) for navigation
 
 1. Install expo-cli with `npm install --global expo-cli`
 > If you run into issues installing expo-cli, docs are available here [Expo docs](https://docs.expo.dev/get-started/installation/)
-2. Clone the repository
+2. Clone the repository and run `yarn install` under the app root directory
 3. Create an account at [genius.com/api-clients](https://genius.com/api-clients)  
 4. Once your account is created, click on Generate Access Token, this is your `generated-client-access-token`
 5. Create a `.env` file in the root `/songbook` directory

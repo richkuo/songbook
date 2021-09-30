@@ -16,48 +16,52 @@ import Config from "react-native-config";
 export default function SearchScreen({ navigation }) {
   const [artistList, setArtistList] = useState([]);
   const [songList, setSongList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('');
 
   const submitSearch = async (searchTerm) => {
+    setLoading(true);
+
     try {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + searchTerm, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + Config.GENIUS_CLIENT_ACCESS_TOKEN,
+          Authorization: 'Bearer ' + 'uEl74vepbfLSQ4dkcnOc0CnP0XWAruPR5BvnzWoOIzRGLeP7VskgX0nkNCKI0McX',
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
 
       const json = await response.json();
+
+      if(json.error) {
+        setResponseMessage(json.error_description);
+        setSongList([]);
+        setLoading(false);
+        return
+      }
+
       const hits = json.response.hits;
 
       // display only unique artists
       let artists = [...new Map(hits.map(hit => [hit.result.primary_artist.id, hit.result.primary_artist])).values()]
+
       setArtistList(artists);
+      setResponseMessage("Search Results");
+      setLoading(false);
     } catch (error) {
+      setResponseMessage("There was an error with the search, please try again");
+      setLoading(false);
       console.error(error);
     }
   }
-
-  // example primary_artist object
-  // "primary_artist": Object {
-  //   "api_path": "/artists/1312707",
-  //   "header_image_url": "https://images.genius.com/7512e4d75df60c4dd6f8bee8cac477e3.1000x333x1.jpg",
-  //   "id": 1312707,
-  //   "image_url": "https://images.genius.com/8e31f6d0355c4b073cbc92a89d11c618.680x680x1.jpg",
-  //   "is_meme_verified": false,
-  //   "is_verified": false,
-  //   "name": "Krimelife Ca$$",
-  //   "url": "https://genius.com/artists/Krimelife-ca",
-  // },
 
   const renderArtist = (artist) => {
     let item = artist.item;
 
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('Songs by Artist', {
-          songList: songList.filter(song => song.result.primary_artist.id == item.id),
+        onPress={() => navigation.navigate('Songs', {
           artist: item,
         })}
       >
@@ -79,8 +83,9 @@ export default function SearchScreen({ navigation }) {
         onChangeText={text => submitSearch(text)}
       />
 
-      <Text style={styles.title}>Artist Results</Text>
       <FlatList
+        ListHeaderComponent=<Text style={styles.title}>{responseMessage}</Text>
+        refreshing={loading}
         data={artistList}
         renderItem={artist => renderArtist(artist)}
         keyExtractor={artist => artist.id}

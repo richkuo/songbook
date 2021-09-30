@@ -16,13 +16,17 @@ import Config from "react-native-config";
 export default function SongsScreen({ route, navigation }) {
   const { artist } = route.params;
   const [songList, setSongList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('');
 
   const submitSearch = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch('https://api.genius.com/search?per_page=50&q=' + artist.name, {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + Config.GENIUS_CLIENT_ACCESS_TOKEN,
+          Authorization: 'Bearer ' + 'uEl74vepbfLSQ4dkcnOc0CnP0XWAruPR5BvnzWoOIzRGLeP7VskgX0nkNCKI0McX',
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -35,7 +39,11 @@ export default function SongsScreen({ route, navigation }) {
       let songs = hits.filter(song => song.type == 'song');
 
       setSongList(songs);
+      setResponseMessage("Song Results for " + artist.name);
+      setLoading(false);
     } catch (error) {
+      setResponseMessage("There was an error with the app, please go back and try again");
+      setLoading(false);
       console.error(error);
     }
   }
@@ -58,8 +66,8 @@ export default function SongsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Song Results for {artist.name}</Text>
       <FlatList
+        ListHeaderComponent=<Text style={styles.title}>{responseMessage}</Text>
         data={songList}
         renderItem={song => renderSong(song)}
         keyExtractor={song => song.id}
